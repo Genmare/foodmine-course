@@ -1,0 +1,1 @@
+Cette application web vient de la playlist du youtuber **Code With Nasir** : https://www.youtube.com/playlist?list=PLpaspowtqj-dA0cRZ1yEZBv0iwdOru-SC Je l'ai modifiée pour la mettre à jour avec Angular 18 (de 16->18).
