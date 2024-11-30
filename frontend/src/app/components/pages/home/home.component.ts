@@ -1,23 +1,13 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  importProvidersFrom,
-  ViewChild,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { Food } from '../../../shared/models/food';
 import { FoodService } from '../../../services/food.service';
 import { CurrencyPipe, NgFor } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import {
-  StarRatingComponent,
-  StarRatingModule,
-  StarRatingUtils,
-} from 'angular-star-rating';
 import { SearchComponent } from '../../partials/search/search.component';
 import { TagsComponent } from '../../partials/tags/tags.component';
 import { NotFoundComponent } from '../../partials/not-found/not-found.component';
 import { Observable } from 'rxjs';
+import { StarRatingComponent } from 'app/components/partials/star-rating/star-rating.component';
 
 @Component({
   selector: 'app-home',
@@ -25,22 +15,19 @@ import { Observable } from 'rxjs';
   imports: [
     NgFor,
     RouterLink,
-    StarRatingModule,
     CurrencyPipe,
     NotFoundComponent,
     SearchComponent,
+    StarRatingComponent,
     TagsComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements AfterViewInit {
-  @ViewChild('whithHalfStar') private whithHalfStar?: StarRatingComponent;
-
+export class HomeComponent {
   foods: Food[] = [];
 
   constructor(
-    private cdr: ChangeDetectorRef,
     private foodService: FoodService,
     activatedRoute: ActivatedRoute
   ) {
@@ -58,14 +45,5 @@ export class HomeComponent implements AfterViewInit {
         this.foods = serverFoods;
       });
     });
-  }
-
-  ngAfterViewInit(): void {
-    if (this.whithHalfStar) {
-      this.whithHalfStar.getHalfStarVisible =
-        StarRatingUtils.getHalfStarVisible;
-      this.whithHalfStar.setHalfStarVisible();
-      this.cdr.detectChanges();
-    }
   }
 }

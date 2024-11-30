@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { booleanAttribute, Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -9,8 +9,8 @@ import { RouterLink } from '@angular/router';
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.css',
 })
-export class NotFoundComponent {
-  @Input()
+export class NotFoundComponent implements OnInit {
+  @Input({ transform: booleanAttribute })
   visible = false;
   @Input()
   notFoundMessage = 'Nothing Found!';
@@ -18,4 +18,13 @@ export class NotFoundComponent {
   resetLinkText = 'Reset';
   @Input()
   resetLinkRoute = '/';
+
+  ngOnInit(): void {
+    // reintialisation des valeurs par défaut
+    // parce que withComponentInputBinding du router les met à undefined
+    this.visible = this.visible ?? false;
+    this.notFoundMessage = this.notFoundMessage ?? 'Nothing Found!';
+    this.resetLinkText = this.resetLinkText ?? 'Reset';
+    this.resetLinkRoute = this.resetLinkRoute ?? '/';
+  }
 }

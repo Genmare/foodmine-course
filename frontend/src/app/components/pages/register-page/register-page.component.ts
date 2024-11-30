@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TitleComponent } from '../../partials/title/title.component';
 import {
   FormBuilder,
+  FormControlOptions,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -49,7 +50,10 @@ export class RegisterPageComponent implements OnInit {
         address: ['', [Validators.required, Validators.minLength(8)]],
       },
       {
-        validators: PasswordsMatchValidator('password', 'confirmPassword'),
+        validators: PasswordsMatchValidator(
+          'password',
+          'confirmPassword'
+        ) as FormControlOptions,
       }
     );
 

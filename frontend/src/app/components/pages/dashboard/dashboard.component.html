@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="menu">
+    @for (item of allItems; track $index) { @if (user.isAdmin || !item.forAdmin)
+    {
+    <a
+      [routerLink]="item.url"
+      [ngStyle]="{ 'background-color': item.bgColor, color: item.color }"
+    >
+      <img [src]="item.imageUrl" />
+      <h2>{{ item.title }}</h2>
+    </a>
+    } }
+  </div>
+</div>

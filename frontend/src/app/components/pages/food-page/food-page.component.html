@@ -14,14 +14,7 @@
       <span class="favorite {{ food.favorite ? '' : 'not' }}">❤</span>
     </div>
     <div class="rating">
-      <star-rating
-        staticColor="negative"
-        [starType]="'svg'"
-        [showHalfStars]="true"
-        [rating]="food.stars"
-        [readOnly]="true"
-        #whithHalfStar
-      ></star-rating>
+      <star-rating [stars]="food.stars" [size]="1.8" />
     </div>
 
     <div class="origins">

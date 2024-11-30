@@ -1,0 +1,54 @@
+<div class="container">
+  <app-title title="Orders" margin="1.5rem 0 0 0.2rem" fontSize="1.9rem" />
+  @if (allStatus) {
+    <div class="all_status">
+      <a routerLink="/orders" [ngClass]="{ selected: !filter }"> All </a>
+      @for (state of allStatus; track $index) {
+        <a
+          [routerLink]="['/orders', state]"
+          [ngClass]="{ selected: state == filter }"
+          >{{ state }}</a
+        >
+      }
+    </div>
+  }
+
+  @if (orders.length === 0) {
+    <app-not-found
+      [resetLinkRoute]="filter ? '/orders' : '/'"
+      [resetLinkText]="filter ? 'Show All' : 'Go To Home Page'"
+      [visible]="true"
+    />
+  }
+
+  @if (orders$ | async) {
+    @for (order of orders; track $index) {
+      <div class="order_summary">
+        <div class="header">
+          <span>{{ order.id }}</span>
+          <span>{{
+            order.createdAt | date: "E, MMMM d, yyyy 'a't hh:mm:ss a"
+          }}</span>
+          <span>{{ order.status }}</span>
+        </div>
+        <div class="items">
+          @for (item of order.items; track $index) {
+            <a [routerLink]="['/food', item.food.id]">
+              <img [src]="item.food.imageUrl" [alt]="item.food.name" />
+            </a>
+          }
+        </div>
+        <div class="footer">
+          <div>
+            <a [routerLink]="['/track', order.id]">Show Order</a>
+          </div>
+          <div>
+            <div class="price">
+              <span>{{ order.totalPrice | currency }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

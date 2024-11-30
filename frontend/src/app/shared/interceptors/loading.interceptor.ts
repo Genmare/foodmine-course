@@ -12,14 +12,17 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     tap({
       next: (event) => {
-        if (event.type === HttpEventType.Response) {
+        if (
+          event.type === HttpEventType.Response
+          // && !(req.body instanceof FormData)
+        ) {
           handleHideLoading(loadingService);
         }
       },
       error: (_) => {
         handleHideLoading(loadingService);
       },
-    })
+    }),
   );
 };
 

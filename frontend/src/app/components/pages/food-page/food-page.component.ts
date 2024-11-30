@@ -1,42 +1,30 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ViewChild,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { Food } from '../../../shared/models/food';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FoodService } from '../../../services/food.service';
-import {
-  StarRatingComponent,
-  StarRatingModule,
-  StarRatingUtils,
-} from 'angular-star-rating';
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { CartService } from '../../../services/cart.service';
 import { NotFoundComponent } from '../../partials/not-found/not-found.component';
+import { StarRatingComponent } from 'app/components/partials/star-rating/star-rating.component';
 
 @Component({
   selector: 'app-food-page',
   standalone: true,
   imports: [
     NotFoundComponent,
-    StarRatingModule,
     NgIf,
     NgFor,
     RouterLink,
     CurrencyPipe,
+    StarRatingComponent,
   ],
   templateUrl: './food-page.component.html',
   styleUrl: './food-page.component.css',
 })
-export class FoodPageComponent implements AfterViewInit {
-  @ViewChild('whithHalfStar') private whithHalfStar?: StarRatingComponent;
-
+export class FoodPageComponent {
   food!: Food;
 
   constructor(
-    private cdr: ChangeDetectorRef,
     activatedRoute: ActivatedRoute,
     foodService: FoodService,
     private cartService: CartService,
@@ -48,15 +36,6 @@ export class FoodPageComponent implements AfterViewInit {
           this.food = serverFood;
         });
     });
-  }
-
-  ngAfterViewInit(): void {
-    if (this.whithHalfStar) {
-      this.whithHalfStar.getHalfStarVisible =
-        StarRatingUtils.getHalfStarVisible;
-      this.whithHalfStar.setHalfStarVisible();
-      this.cdr.detectChanges();
-    }
   }
 
   addToCart() {

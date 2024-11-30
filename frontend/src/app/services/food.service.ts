@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Food } from '../shared/models/food';
-import { sample_foods, sample_tags } from '../../data';
 import { Tag } from '../shared/models/tag';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,6 +10,7 @@ import {
   FOODS_TAGS_URL,
   FOODS_URL,
 } from '../shared/constants/urls';
+import { IFood } from '../shared/interfaces/IFood';
 
 @Injectable({
   providedIn: 'root',
@@ -38,5 +38,17 @@ export class FoodService {
 
   getFoodbyId(foodId: string): Observable<Food> {
     return this.http.get<Food>(FOODS_BY_ID_URL + foodId);
+  }
+
+  deleteById(foodId: string) {
+    return this.http.delete(FOODS_URL + foodId).subscribe();
+  }
+
+  update(food: IFood) {
+    return this.http.put(FOODS_URL, food).subscribe();
+  }
+
+  addFood(food: IFood): Observable<Food> {
+    return this.http.post<Food>(FOODS_URL, food);
   }
 }

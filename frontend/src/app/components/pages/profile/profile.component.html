@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="details">
+    <app-title title="Update Profile" />
+    <form [formGroup]="profileForm" (ngSubmit)="submit()">
+      <text-input
+        [control]="fc.name"
+        [showErrorsWhen]="isSubmitted"
+        label="Name"
+      />
+      <text-input
+        [control]="fc.address"
+        [showErrorsWhen]="isSubmitted"
+        label="Address"
+      />
+
+      <default-button text="Update" bgColor="#009e84" />
+    </form>
+
+    <change-password />
+  </div>
+</div>

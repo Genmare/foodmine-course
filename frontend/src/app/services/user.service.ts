@@ -4,8 +4,17 @@ import { User } from '../shared/models/User';
 import { IUserLogin } from '../shared/interfaces/IUserLogin';
 import { IUserRegister } from '../shared/interfaces/IUserRegister';
 import { HttpClient } from '@angular/common/http';
-import { USER_LOGIN_URL, USER_REGISTER_URL } from '../shared/constants/urls';
+import {
+  USER_GETALL_URL,
+  USER_LOGIN_URL,
+  USER_PASSWORD_UPDATE_URL,
+  USER_REGISTER_URL,
+  USER_TOGGLEBLOCK_URL,
+  USER_UPDATE_URL,
+} from '../shared/constants/urls';
 import { ToastrService } from 'ngx-toastr';
+import { IUserProfile } from 'app/shared/interfaces/IUserProfile';
+import { IUserPassword } from 'app/shared/interfaces/IUserPassword';
 
 const USER_KEY = 'User';
 
@@ -14,11 +23,14 @@ const USER_KEY = 'User';
 })
 export class UserService {
   private userSubject = new BehaviorSubject<User>(
-    this.getUserFromLocalStorage()
+    this.getUserFromLocalStorage(),
   );
   public userObsevable: Observable<User>;
 
-  constructor(private http: HttpClient, private toastService: ToastrService) {
+  constructor(
+    private http: HttpClient,
+    private toastService: ToastrService,
+  ) {
     this.userObsevable = this.userSubject.asObservable();
   }
 
@@ -36,13 +48,13 @@ export class UserService {
 
           this.toastService.success(
             `Welcome to Foodmin ${user.name}!`,
-            'Login Successful'
+            'Login Successful',
           );
         },
         error: (errorResponse) => {
           this.toastService.error(errorResponse.error, 'Login Failed');
         },
-      })
+      }),
     );
   }
 
@@ -54,12 +66,12 @@ export class UserService {
           this.userSubject.next(user);
           this.toastService.success(
             `Welcom to the Foodmine ${user.name}`,
-            'Register Successful'
+            'Register Successful',
           );
         },
         error: (errorResponse) =>
           this.toastService.error(errorResponse.error, 'Register Failed'),
-      })
+      }),
     );
   }
 
@@ -67,6 +79,50 @@ export class UserService {
     this.userSubject.next(new User());
     localStorage.removeItem(USER_KEY);
     window.location.reload();
+  }
+
+  updateProfile(user: IUserProfile): Observable<User> {
+    return this.http.put<User>(USER_UPDATE_URL, user).pipe(
+      tap({
+        next: (user) => {
+          this.setUserTotLocalStorage(user);
+          this.userSubject.next(user);
+          this.toastService.success(
+            `User profile updated`,
+            'Updated Successful',
+          );
+        },
+        error: (errorResponse) =>
+          this.toastService.error(errorResponse, 'Update Failed'),
+      }),
+    );
+  }
+
+  changePassword(userPassword: IUserPassword) {
+    this.http
+      .put(USER_PASSWORD_UPDATE_URL, userPassword)
+      .pipe(
+        tap({
+          next: () => {
+            this.logout();
+            this.toastService.success(
+              'Password Changed Successfully, Please Login Again!',
+              'Updated Successful',
+            );
+          },
+          error: (errorResponse) =>
+            this.toastService.error(errorResponse, 'Change Password Failed'),
+        }),
+      )
+      .subscribe();
+  }
+
+  public getAll(searchTerm: string): Observable<User[]> {
+    return this.http.get<User[]>(USER_GETALL_URL + (searchTerm ?? ''));
+  }
+
+  public toggleBlock(userId: string): Observable<boolean> {
+    return this.http.put<boolean>(USER_TOGGLEBLOCK_URL + userId, {});
   }
 
   private setUserTotLocalStorage(user: User) {

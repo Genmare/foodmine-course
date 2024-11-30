@@ -16,10 +16,11 @@
     "declaration": false,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
-    "importHelpers": true,
+    "importHelpers": false,
     "target": "ES2022",
     "module": "ES2022",
-    "lib": ["ES2022", "dom"]
+    "lib": ["ES2022", "dom"],
+    "baseUrl": "src"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

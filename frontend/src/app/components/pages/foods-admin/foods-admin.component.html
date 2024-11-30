@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="list">
+    <app-title title="Manage Foods" margin="1rem auto" />
+    <app-search
+      searchRoute="/admin/foods/"
+      defaultRoute="/admin/foods"
+      margin="1rem 0"
+    />
+    <a routerLink="/admin/addFood" class="add_food"> Add Food +</a>
+    @if (!(foods && foods.length > 0)) {
+      @if (searchTerm) {
+        <app-not-found
+          visible="true"
+          resetLinkRoute="/admin/foods"
+          resetLinkText="Show All"
+        />
+      } @else {
+        <app-not-found
+          visible="true"
+          resetLinkRoute="/dashboard"
+          resetLinkText="Back to dashboard!"
+        />
+      }
+    }
+    @if (foods) {
+      @for (food of foods; track $index) {
+        <div class="list_item">
+          <img [src]="food.imageUrl" [alt]="food.name" />
+          <a [routerLink]="['/food/', food.id]">{{ food.name }}</a>
+          <span>{{ food.price | currency }}</span>
+          <div class="actions">
+            <a [routerLink]="['/admin/editFood/', food.id]">Edit</a>
+            <a (click)="deleteFood(food)">Delete</a>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

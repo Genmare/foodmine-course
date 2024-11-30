@@ -2,6 +2,7 @@ import { Router } from "express";
 import { sample_foods, sample_tags } from "../data";
 import asyncHandler from "express-async-handler";
 import { FoodModel } from "../models/food.model";
+import admin from "../middlewares/admin.mid";
 
 const router = Router();
 
@@ -32,6 +33,63 @@ router.get(
     const searchRegex = new RegExp(req.params.searchTerm, "i");
     const foods = await FoodModel.find({ name: { $regex: searchRegex } });
     res.send(foods);
+  })
+);
+
+router.post(
+  "/",
+  admin,
+  asyncHandler(async (req, res) => {
+    const { name, price, tags, favorite, imageUrl, origins, cookTime } =
+      req.body;
+    console.log("update food", req.body);
+
+    const food = new FoodModel({
+      name,
+      price,
+      tags: tags.split ? tags.split(",") : tags, // si la fct split existe alors '','','' => ['','','']
+      favorite,
+      imageUrl,
+      origins: origins.split ? origins.split(",") : origins,
+      cookTime,
+    });
+
+    await food.save();
+
+    res.send(food);
+  })
+);
+
+router.put(
+  "/",
+  admin,
+  asyncHandler(async (req, res) => {
+    const { id, name, price, tags, favorite, imageUrl, origins, cookTime } =
+      req.body;
+    console.log("update food", req.body);
+    await FoodModel.updateOne(
+      { _id: id },
+      {
+        name,
+        price,
+        tags: tags.split ? tags.split(",") : tags, // si la fct split existe alors '','','' => ['','','']
+        favorite,
+        imageUrl,
+        origins: origins.split ? origins.split(",") : origins,
+        cookTime,
+      }
+    );
+    res.send();
+  })
+);
+
+router.delete(
+  "/:foodId",
+  admin,
+  asyncHandler(async (req, res) => {
+    const { foodId } = req.params;
+    await FoodModel.deleteOne({ _id: foodId });
+    res.send();
   })
 );
 

@@ -3,10 +3,9 @@ import {
   importProvidersFrom,
   provideZoneChangeDetection,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
-import { StarRatingModule } from 'angular-star-rating';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
@@ -16,7 +15,7 @@ import { authInterceptor } from './auth/auth.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withInterceptors([loadingInterceptor, authInterceptor])),
     provideAnimations(),
     provideToastr({
@@ -24,6 +23,5 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-bottom-right',
       newestOnTop: false,
     }),
-    importProvidersFrom(StarRatingModule.forRoot()),
   ],
 };

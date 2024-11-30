@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="list">
+    <app-title title="Manage Users" />
+    <div class="list_item">
+      <h3>Name</h3>
+      <h3>Email</h3>
+      <h3>Adress</h3>
+      <h3>Admin</h3>
+      <h3>Actions</h3>
+    </div>
+    @if (users) {
+      @for (user of users; track $index) {
+        <div class="list_item">
+          <span>{{ user.name }}</span>
+          <span>{{ user.email }}</span>
+          <span>{{ user.address }}</span>
+          <span>{{ user.isAdmin ? "✅" : "❌" }}</span>
+          <span class="actions">
+            <a [routerLink]="['/admin/editUser/', user.id]">Edit</a>
+            @if (currentUser.id !== user.id) {
+              <a (click)="handleToggleBlock(user.id)">
+                {{ user.isBlocked ? "Unblock" : "Block" }}
+              </a>
+            }
+          </span>
+        </div>
+      }
+    }
+  </div>
+</div>
