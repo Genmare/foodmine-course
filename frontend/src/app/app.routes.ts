@@ -16,6 +16,7 @@ import { FoodsAdminComponent } from './components/pages/foods-admin/foods-admin.
 import { NotFoundComponent } from './components/partials/not-found/not-found.component';
 import { FoodEditPageComponent } from './components/pages/food-edit-page/food-edit-page.component';
 import { UsersPageComponent } from './components/pages/users-page/users-page.component';
+import { UserEditPageComponent } from './components/pages/user-edit-page/user-edit-page.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -88,6 +89,11 @@ export const routes: Routes = [
   {
     path: 'admin/users',
     component: UsersPageComponent,
+    canActivate: [authGuard, adminGuard],
+  },
+  {
+    path: 'admin/editUser/:userId',
+    component: UserEditPageComponent,
     canActivate: [authGuard, adminGuard],
   },
   { path: 'not-found', component: NotFoundComponent },

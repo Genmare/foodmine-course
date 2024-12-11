@@ -37,13 +37,13 @@ export class RegisterPageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group(
       {
-        name: ['', [Validators.required, Validators.minLength(5)]],
+        name: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(5)]],
         confirmPassword: ['', Validators.required],
@@ -52,9 +52,9 @@ export class RegisterPageComponent implements OnInit {
       {
         validators: PasswordsMatchValidator(
           'password',
-          'confirmPassword'
+          'confirmPassword',
         ) as FormControlOptions,
-      }
+      },
     );
 
     this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl;
@@ -65,7 +65,10 @@ export class RegisterPageComponent implements OnInit {
   }
 
   submit() {
+    console.log('submit');
     this.isSubmitted = true;
+    console.log('this.registerForm.invalid', this.registerForm.invalid);
+
     if (this.registerForm.invalid) return;
 
     const fv = this.registerForm.value;

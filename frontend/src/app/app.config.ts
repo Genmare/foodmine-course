@@ -1,6 +1,7 @@
 import {
   ApplicationConfig,
   importProvidersFrom,
+  LOCALE_ID,
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
@@ -23,5 +24,6 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-bottom-right',
       newestOnTop: false,
     }),
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
   ],
 };

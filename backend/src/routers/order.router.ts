@@ -5,6 +5,7 @@ import { OrderModel } from "../models/order.model";
 import { OrderStatus } from "../constants/order_status";
 import auth from "../middlewares/auth.mid";
 import { UserModel } from "../models/user.model";
+import { sendEmailReceipt } from "../helpers/mail.helper";
 
 const router = Router();
 router.use(auth);
@@ -53,7 +54,9 @@ router.post(
     order.status = OrderStatus.PAYED;
     await order.save();
 
-    res.send(order._id); // besoin pour redirigé le user à la TrackPage
+    sendEmailReceipt(order);
+
+    res.send(order._id); // besoin pour rediriger le user à la TrackPage
   })
 );
 
@@ -90,7 +93,8 @@ async function getNewOrderForCurrentUser(req: any) {
   return await OrderModel.findOne({
     user: req.user.id,
     status: OrderStatus.NEW,
-  });
+  }).populate("user"); // "populate" pour faire le lien avec la
+  // "ref" 'user' du orderSchema => ça va mettre l'objet user dans l'objet orderSchema
 }
 
 export default router;

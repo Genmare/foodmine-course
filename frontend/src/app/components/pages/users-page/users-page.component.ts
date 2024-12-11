@@ -3,11 +3,12 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { UserService } from 'app/services/user.service';
 import { User } from 'app/shared/models/User';
 import { TitleComponent } from '../../partials/title/title.component';
+import { SearchComponent } from '../../partials/search/search.component';
 
 @Component({
   selector: 'app-users-page',
   standalone: true,
-  imports: [RouterLink, TitleComponent],
+  imports: [RouterLink, TitleComponent, SearchComponent],
   templateUrl: './users-page.component.html',
   styleUrl: './users-page.component.css',
 })

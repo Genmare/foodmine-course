@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="content">
+    <app-title [title]="isEditMode ? 'Edit User' : 'Add User'" />
+    <form [formGroup]="userEditForm" (submit)="submit()">
+      <text-input
+        label="Name"
+        [control]="fc.name"
+        [showErrorsWhen]="isSubmitted"
+      />
+      <text-input
+        label="Email"
+        [control]="fc.email"
+        [showErrorsWhen]="isSubmitted"
+      />
+      <text-input
+        label="Address"
+        [control]="fc.address"
+        [showErrorsWhen]="isSubmitted"
+      />
+      <!-- @if (currentUser.id !== userId) { -->
+      <text-input
+        type="checkbox"
+        label="Is Admin"
+        [control]="fc.isAdmin"
+        [disabled]="userId === currentUser.id"
+        message="You cannot remove administrator rights from yourself."
+      />
+      <!-- } -->
+      <default-button text="Submit" />
+    </form>
+  </div>
+</div>

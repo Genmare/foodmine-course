@@ -6,15 +6,18 @@ import { IUserRegister } from '../shared/interfaces/IUserRegister';
 import { HttpClient } from '@angular/common/http';
 import {
   USER_GETALL_URL,
+  USER_GETBYID_URL,
   USER_LOGIN_URL,
   USER_PASSWORD_UPDATE_URL,
   USER_REGISTER_URL,
   USER_TOGGLEBLOCK_URL,
+  USER_UPDATE_PROFILE_URL,
   USER_UPDATE_URL,
 } from '../shared/constants/urls';
 import { ToastrService } from 'ngx-toastr';
 import { IUserProfile } from 'app/shared/interfaces/IUserProfile';
 import { IUserPassword } from 'app/shared/interfaces/IUserPassword';
+import { IUserEdit } from 'app/shared/interfaces/IUserEdit';
 
 const USER_KEY = 'User';
 
@@ -82,7 +85,7 @@ export class UserService {
   }
 
   updateProfile(user: IUserProfile): Observable<User> {
-    return this.http.put<User>(USER_UPDATE_URL, user).pipe(
+    return this.http.put<User>(USER_UPDATE_PROFILE_URL, user).pipe(
       tap({
         next: (user) => {
           this.setUserTotLocalStorage(user);
@@ -123,6 +126,14 @@ export class UserService {
 
   public toggleBlock(userId: string): Observable<boolean> {
     return this.http.put<boolean>(USER_TOGGLEBLOCK_URL + userId, {});
+  }
+
+  public getById(userId: string): Observable<User> {
+    return this.http.get<User>(USER_GETBYID_URL + userId);
+  }
+
+  public updateUser(userData: IUserEdit) {
+    return this.http.put(USER_UPDATE_URL, userData);
   }
 
   private setUserTotLocalStorage(user: User) {

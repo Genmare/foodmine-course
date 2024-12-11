@@ -2,7 +2,7 @@
   <input
     #s
     type="text"
-    placeholder="Search Food Mine!"
+    [placeholder]="placeholder"
     (keyup.enter)="search(s.value)"
     [value]="searchTerm"
   />

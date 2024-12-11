@@ -1,7 +1,14 @@
 <input-container [label]="label">
-  <input [type]="type" [placeholder]="label" [formControl]="formControl" />
-  <input-validation
-    [control]="control"
-    [showErrorWhen]="showErrorsWhen"
-  ></input-validation>
+  <input
+    [type]="type"
+    [placeholder]="label"
+    [formControl]="formControl"
+    [checked]="type == 'checkbox' && formControl.value"
+    (change)="onCheckboxChange($event)"
+  />
+  @if (!disabled) {
+    <input-validation [control]="control" [showErrorWhen]="showErrorsWhen" />
+  } @else {
+    <p class="message">{{ message }}</p>
+  }
 </input-container>

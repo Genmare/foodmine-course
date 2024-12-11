@@ -145,6 +145,44 @@ router.put(
   })
 );
 
+router.get(
+  "/getById/:userId",
+  admin,
+  asyncHandler(async (req: any, res: any) => {
+    const { userId } = req.params;
+
+    const user = await UserModel.findById(userId, { password: 0 });
+
+    res.send(user);
+  })
+);
+
+router.put(
+  "/update",
+  admin,
+  asyncHandler(async (req, res) => {
+    const { id, name, email, address, isAdmin } = req.body;
+    console.log("id", id);
+    console.log("body", req.body);
+
+    const user = await UserModel.findByIdAndUpdate(
+      id,
+      {
+        name,
+        email,
+        address,
+        isAdmin,
+      }
+      // { new: true }
+    );
+
+    // console.log("result", user);
+
+    // res.send(user);
+    res.send();
+  })
+);
+
 const generateTokenResponse = (user: any) => {
   const token = jwt.sign(
     {

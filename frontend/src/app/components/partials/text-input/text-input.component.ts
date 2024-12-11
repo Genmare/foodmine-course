@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { InputContainerComponent } from '../input-container/input-container.component';
 import { InputValidationComponent } from '../input-validation/input-validation.component';
 import {
@@ -18,7 +18,7 @@ import {
   templateUrl: './text-input.component.html',
   styleUrl: './text-input.component.css',
 })
-export class TextInputComponent {
+export class TextInputComponent implements OnInit {
   @Input()
   control!: AbstractControl;
   @Input()
@@ -26,9 +26,31 @@ export class TextInputComponent {
   @Input()
   label!: string;
   @Input()
-  type: 'text' | 'password' | 'number' | 'email' = 'text';
+  disabled = false;
+  @Input()
+  type: 'text' | 'password' | 'number' | 'checkbox' | 'email' = 'text';
+  @Input()
+  message!: string;
+
+  constructor() {}
+
+  ngOnInit(): void {
+    if (this.disabled) this.formControl.disable();
+  }
 
   get formControl() {
     return this.control as FormControl;
+  }
+
+  get value() {
+    const fc = this.control as FormControl;
+    return fc.value;
+  }
+
+  onCheckboxChange(event: Event): void {
+    if (this.type === 'checkbox') {
+      const isChecked = (event.target as HTMLInputElement).checked;
+      this.formControl.setValue(isChecked);
+    }
   }
 }

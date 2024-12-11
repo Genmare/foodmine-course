@@ -20,6 +20,9 @@ export class SearchComponent {
   @Input()
   margin!: string;
 
+  @Input()
+  placeholder = 'Search Food Mine!';
+
   constructor(
     activatedRoute: ActivatedRoute,
     private router: Router,

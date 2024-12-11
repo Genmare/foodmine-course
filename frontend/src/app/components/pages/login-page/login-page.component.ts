@@ -6,10 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { TitleComponent } from '../../partials/title/title.component';
-import { NgIf } from '@angular/common';
 import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { InputContainerComponent } from '../../partials/input-container/input-container.component';
 import { TextInputComponent } from '../../partials/text-input/text-input.component';
 import { DefaultButtonComponent } from '../../partials/default-button/default-button.component';
 
@@ -18,12 +16,10 @@ import { DefaultButtonComponent } from '../../partials/default-button/default-bu
   standalone: true,
   imports: [
     DefaultButtonComponent,
-    NgIf,
     TextInputComponent,
     TitleComponent,
     ReactiveFormsModule,
     RouterLink,
-    InputContainerComponent,
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css',
@@ -37,7 +33,7 @@ export class LoginPageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
