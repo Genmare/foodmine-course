@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "mongod": "mongod --dbpath ./mongo_d --quiet",
+    "compass": "MongoDBCompass.exe mongodb://localhost:27017/foodmine",
     "start": "cd src && nodemon server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

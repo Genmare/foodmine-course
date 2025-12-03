@@ -28,13 +28,13 @@ export class UserService {
   private userSubject = new BehaviorSubject<User>(
     this.getUserFromLocalStorage(),
   );
-  public userObsevable: Observable<User>;
+  public userObservable: Observable<User>;
 
   constructor(
     private http: HttpClient,
     private toastService: ToastrService,
   ) {
-    this.userObsevable = this.userSubject.asObservable();
+    this.userObservable = this.userSubject.asObservable();
   }
 
   public get currentUser(): User {

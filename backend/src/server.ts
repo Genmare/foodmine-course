@@ -32,5 +32,5 @@ app.get("*", (_, res) => {
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log("Website served on httm://localhost:" + port);
+  console.log("Website served on http://localhost:" + port);
 });

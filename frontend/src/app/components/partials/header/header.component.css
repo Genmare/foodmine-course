@@ -19,6 +19,7 @@ a:hover {
   margin: auto;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 a.logo {
@@ -51,7 +52,7 @@ a span {
 
 .menu {
   position: absolute;
-  z-index: 1;
+  z-index: 401;
   background: whitesmoke;
   display: none;
 }

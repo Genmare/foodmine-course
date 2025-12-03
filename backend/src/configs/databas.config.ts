@@ -1,7 +1,12 @@
 import { connect, ConnectOptions } from "mongoose";
 
+const dbUri =
+  process.env.NODE_ENV === "production"
+    ? process.env.MONGO_URI
+    : process.env.MONGO_URI_LOCAL;
+
 export const dbConnect = () => {
-  connect(process.env.MONGO_URI!, {
+  connect(dbUri!, {
     // useNewUrlParser: true,
     // useUnifiedTopology: true,
   } as ConnectOptions).then(
